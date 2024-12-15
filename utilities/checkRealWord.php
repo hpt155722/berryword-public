@@ -3,7 +3,7 @@
 $word = isset($_GET['word']) ? $_GET['word'] : '';
 
 // Your Merriam-Webster API key
-$apiKey = [OMITTED];
+$apiKey = 'OMITTED';
 
 // URL for the Merriam-Webster API
 $url = "https://dictionaryapi.com/api/v3/references/collegiate/json/{$word}?key={$apiKey}";
@@ -30,7 +30,7 @@ $data = json_decode($response, true);
 // Check if the word is found in the dictionary
 if (isset($data[0]['meta']['id'])) {
     // Word is found, it is real
-    echo json_encode(['is_real' => true, 'word' => $word, 'definition' => $data[0]['shortdef']]);
+    echo json_encode(['is_real' => true, 'word' => $word]);
 } else {
     // Word is not found, it is not real
     echo json_encode(['is_real' => false, 'word' => $word, 'error' => 'Word not found']);

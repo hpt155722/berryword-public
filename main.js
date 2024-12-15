@@ -62,12 +62,12 @@ function playGame() {
 		$('#mainMenuContainer').hide();
 		$('#strawberry1, #strawberry2, #strawberry3').hide();
 		$('#mainGameContainer').show();
-	}, 500);
+	}, 300);
 
 	setTimeout(() => {
 		toggleLoadingScreen(false);
 		gameStarted = true;
-	}, 800);
+	}, 400);
 }
 
 function resetGame() {
@@ -98,13 +98,12 @@ function mainMenu() {
 	toggleLoadingScreen(true);
 	setTimeout(() => {
 		closeWindow('endingWindowContainer');
-		$('#mainGameContainer').hide();
 		resetGame();
-		$('#mainMenuContainer').show();
-		$('#strawberry1, #strawberry2, #strawberry3').show();
-	}, 500);
+		$('#mainGameContainer').hide();
+		$('#strawberry1, #strawberry2, #strawberry3, #mainMenuContainer').show();
+	}, 300);
 
-	setTimeout(() => toggleLoadingScreen(false), 1200);
+	setTimeout(() => toggleLoadingScreen(false), 400);
 }
 
 function displayError(message, location = 'bottom') {
@@ -191,10 +190,14 @@ function checkComplete(word) {
 }
 
 function checkRealWord(word) {
+	console.log(word);
 	$.get('utilities/checkRealWord.php', { word })
 		.done((response) => {
 			try {
+				console.log(response);
+
 				const result = JSON.parse(response);
+
 				if (result.is_real) {
 					checkLetters(word);
 				} else {
