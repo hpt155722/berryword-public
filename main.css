@@ -48,6 +48,8 @@ body {
 	overflow: hidden;
 	font-family: Pedagogique;
 	color: var(--dark-primary);
+	margin: 0;
+	padding: 0;
 }
 
 html,
@@ -288,7 +290,7 @@ img {
 	height: 100vh;
 	position: fixed;
 	top: 0;
-	left:0;
+	left: 0;
 	z-index: 5;
 }
 
@@ -349,7 +351,6 @@ img {
 	#windowStrawberry2 {
 		width: 45px;
 	}
-	
 }
 
 /* HOW TO PLAY */
@@ -451,8 +452,17 @@ img {
 
 /* MAIN GAME BOARD */
 
-.mainGameContainer {
+#mainGameContainer {
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	min-height: 400px;
+	padding: 0;
+	margin: 0;
 }
 
 .board {
@@ -460,7 +470,7 @@ img {
 	flex-direction: column;
 	gap: 8px;
 	z-index: 3;
-	margin-top: 30px;
+	margin-top: 15px;
 	margin-bottom: 20px;
 }
 
@@ -493,7 +503,7 @@ img {
 
 @media screen and (orientation: portrait) {
 	.board {
-		margin-top: 70px;
+		margin-top: 40px;
 		margin-bottom: 10px;
 	}
 }
@@ -567,6 +577,7 @@ img {
 	position: fixed;
 	z-index: 4;
 	top: 15px;
+	left: 15px;
 	font-size: 1.5em;
 }
 
@@ -574,6 +585,6 @@ img {
 	#mainMenuFromGame {
 		font-size: 1.25em;
 		margin: 0;
-		margin-left: 15px;
+		margin-left: 10px;
 	}
 }
