@@ -8,6 +8,7 @@
 	--strong-pink: #fb9ab1;
 	--yellow: #fbedd3;
 	--green: #d7f1d9;
+	--red: #faa2b0;
 }
 
 /* FONTS */
@@ -25,6 +26,11 @@
 @font-face {
 	font-family: Vividly;
 	src: url(resources/fonts/Vividly-Regular.ttf);
+}
+
+@font-face {
+	font-family: Bubblegum;
+	src: url(resources/fonts/Bubblegum.ttf);
 }
 
 .bold {
@@ -81,17 +87,28 @@ img {
 	cursor: default;
 }
 
-#errorMessageContainer {
+#bottomErrorMessageContainer {
 	z-index: 101;
 	position: fixed;
-	top: 6vh;
+	bottom: 7vh;
 	width: 100vw;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-#errorMessage {
+#centerErrorMessageContainer {
+	z-index: 101;
+	position: fixed;
+	bottom: 55%;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#centerErrorMessage,
+#bottomErrorMessage {
 	background-color: var(--light-cream);
 	font-size: 0.9em;
 	text-align: center;
@@ -260,9 +277,19 @@ img {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	z-index: 5;
+	z-index: 6;
 	margin: 0;
 	padding: 0;
+}
+
+.backgroundOverlay {
+	background-color: #2020215c;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left:0;
+	z-index: 5;
 }
 
 .window {
@@ -277,6 +304,7 @@ img {
 	border: 3px solid var(--dark-primary);
 	border-radius: 10px;
 	padding: 10px 30px;
+	z-index: 6;
 }
 
 .exitButton {
@@ -286,6 +314,20 @@ img {
 	right: 10px;
 	cursor: pointer;
 	user-select: none;
+}
+
+.windowStrawberry1 {
+	width: 60px;
+	position: absolute;
+	top: 35%;
+	right: -15px;
+}
+
+.windowStrawberry2 {
+	width: 55px;
+	position: absolute;
+	bottom: 20%;
+	left: -20px;
 }
 
 @media (hover: hover) {
@@ -304,6 +346,10 @@ img {
 	.window {
 		width: 70vw;
 	}
+	#windowStrawberry2 {
+		width: 45px;
+	}
+	
 }
 
 /* HOW TO PLAY */
@@ -355,14 +401,10 @@ img {
 	align-items: center;
 }
 
-@media screen and (orientation: portrait) {
-	#endingWindow {
-		width: 75vw;
-	}
-}
-
 #results {
-	font-size: 1.8em;
+	font-size: 2.4em;
+	font-family: Bubblegum;
+	margin-bottom: 10px;
 }
 
 #correctWord {
@@ -375,34 +417,35 @@ img {
 }
 
 #yellowStarEnding {
-	width: 20px;
+	width: 23px;
 	position: absolute;
-	bottom: 0px;
-	right: 40px;
-	rotate: 140deg;
+	bottom: -15px;
+	right: -5%;
+	rotate: 110deg;
 }
 
 #redStarEnding {
-	width: 25px;
+	width: 23px;
 	position: absolute;
-	top: 15%;
-	right: -50px;
+	top: -3%;
+	right: 25%;
 	rotate: 90deg;
 }
 
 #blueStarEnding {
-	width: 28px;
+	width: 23px;
 	position: absolute;
-	left: -60px;
-	top: 35%;
+	left: -40px;
+	bottom: 10%;
 	rotate: 60deg;
 }
 
-@media (max-width: 499px) {
-	#blueStarEnding,
-	#redStarEnding,
-	#yellowStarEnding {
-		display: none;
+@media screen and (orientation: portrait) {
+	#endingWindow {
+		width: 75vw;
+	}
+	#results {
+		font-size: 1.7em;
 	}
 }
 
@@ -522,14 +565,15 @@ img {
 
 #mainMenuFromGame {
 	position: fixed;
-	z-index: 6;
+	z-index: 4;
 	top: 15px;
+	font-size: 1.5em;
 }
 
 @media screen and (orientation: portrait) {
 	#mainMenuFromGame {
 		font-size: 1.25em;
 		margin: 0;
+		margin-left: 15px;
 	}
-
 }

@@ -26,19 +26,32 @@ function toggleLoadingScreen(show) {
 function openWindow(windowID, status) {
 	if (status) {
 		getRealWord((realWord) => $('#correctWord').text(realWord)); // Only if status is not null
+		$('#results').text(status === 'success' ? 'Congratulations' : status === 'failure' ? "That's too bad" : '');
 	}
 
-	$('#results').text(status === 'success' ? 'Congratulations!' : status === 'failure' ? "That's too bad!" : '');
+	const $window = $('#' + windowID);
+	const $windowContainer = $('#' + windowID + 'Container');
 
-	const $window = $('#' + windowID)
-		.addClass('scale-in-center')
-		.show();
-	setTimeout(() => $window.removeClass('scale-in-center'), 500);
+	$windowContainer.addClass('fade-in').show();
+	$window.addClass('scale-in-center').show();
+
+	setTimeout(() => {
+		$window.removeClass('slide-in-center');
+		$windowContainer.removeClass('fade-in');
+	}, 500);
 }
 
 function closeWindow(windowID) {
-	const $window = $('#' + windowID).addClass('slide-out-blurred-bottom');
-	setTimeout(() => $window.removeClass('slide-out-blurred-bottom').hide(), 500);
+	const $window = $('#' + windowID);
+	const $windowContainer = $('#' + windowID + 'Container');
+
+	$window.addClass('slide-out-blurred-bottom');
+	$windowContainer.addClass('fade-out');
+
+	setTimeout(() => {
+		$window.removeClass('slide-out-blurred-bottom').hide();
+		$windowContainer.removeClass('fade-out').hide();
+	}, 500);
 }
 
 function playGame() {
@@ -53,6 +66,7 @@ function playGame() {
 
 	setTimeout(() => {
 		toggleLoadingScreen(false);
+		gameStarted = true;
 	}, 800);
 }
 
@@ -93,19 +107,48 @@ function mainMenu() {
 	setTimeout(() => toggleLoadingScreen(false), 1200);
 }
 
-function displayError(message) {
-	const $errorMessage = $('#errorMessage').text(message).addClass('slide-in-top').show();
-	setTimeout(() => $errorMessage.removeClass('slide-in-top'), 500);
+function displayError(message, location = 'bottom') {
+	// Set position based on location parameter
+	let animationIn, animationOut, $errorMessage, time;
 
-	setTimeout(() => $errorMessage.addClass('slide-out-top'), 3000);
-	setTimeout(() => $errorMessage.removeClass('slide-out-top').hide(), 3500);
+	if (location === 'center') {
+		$errorMessage = $('#centerErrorMessage');
+		animationIn = 'fade-in';
+		animationOut = 'fade-out';
+		time = 800;
+	} else {
+		$errorMessage = $('#bottomErrorMessage');
+		animationIn = 'slide-in-bottom';
+		animationOut = 'slide-out-bottom';
+		time = 3000;
+	}
+
+	// Get the div inside the container to display the error message
+	$errorMessage.text(message); // Update the text of the error message
+
+	// Apply the animation-in class and show the message
+	$errorMessage.addClass(animationIn).show();
+
+	// Remove animation-in class after the animation duration
+	setTimeout(() => $errorMessage.removeClass(animationIn), 500);
+
+	// Add slide-out animation after 3 seconds
+	setTimeout(() => $errorMessage.addClass(animationOut), time);
+
+	// Hide the message and remove slide-out animation after it's finished
+	setTimeout(() => $errorMessage.removeClass(animationOut).hide(), time + 500);
 }
 
 //BOARD FUNCTIONS
 let currentRow = 0,
 	currentColumn = 0,
 	letterStatus = {};
+
+let gameStarted = false; // Flag to check if the game has started
+
 const keyPressHandler = (e) => {
+	if (!gameStarted) return; // If game hasn't started, do not process key events
+
 	const key = e.key.toUpperCase();
 	if (/^[A-Z]$/.test(key)) keyPress(key);
 	else if (key === 'ENTER' || key === 'ENTER') keyPress('Enter');
@@ -127,7 +170,8 @@ function keyPress(key) {
 				.join('');
 			checkComplete(word);
 		} else {
-			displayError('Not a five letter word.');
+			turnRowRed();
+			displayError('Not a five letter word.', 'center');
 		}
 	} else if (key === 'Backspace' && currentColumn > 0) {
 		currentColumn--;
@@ -151,7 +195,13 @@ function checkRealWord(word) {
 		.done((response) => {
 			try {
 				const result = JSON.parse(response);
-				result.is_real ? checkLetters(word) : displayError('Not a real word.');
+				if (result.is_real) {
+					checkLetters(word);
+				} else {
+					// Turn the row red
+					turnRowRed();
+					displayError('Not a real word.', 'center');
+				}
 			} catch {
 				displayError('There was an error processing the response.');
 			}
@@ -160,6 +210,19 @@ function checkRealWord(word) {
 		.always(() => {
 			isProcessing = false;
 		});
+}
+
+function turnRowRed() {
+	const $row = $('.row').eq(currentRow); // Get the current row
+	const $cells = $row.children('.cell'); // Get all the cells in the row
+
+	// Turn all cells in the current row red
+	$cells.css('background-color', 'var(--red');
+
+	// After 1 second, revert the color to the original
+	setTimeout(() => {
+		$cells.css('background-color', '');
+	}, 800);
 }
 
 function checkLetters(word) {
@@ -193,9 +256,9 @@ function checkLetters(word) {
 				currentColumn = 0;
 
 				if (feedback.every((status) => status === 'correct')) {
-					openWindow('endingWindowContainer', 'success');
+					openWindow('endingWindow', 'success');
 				} else if (currentRow >= 6) {
-					openWindow('endingWindowContainer', 'failure');
+					openWindow('endingWindow', 'failure');
 				}
 			} catch {
 				displayError('There was an error processing the response.');

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>berryword</title>
+		<title>temp</title>
 
 		<!-- Include stylesheets -->
 		<link rel="stylesheet" href="main.css" />
@@ -19,14 +19,17 @@
 		</div>
 
 		<!-- Error Message -->
-		<div id="errorMessageContainer">
-			<p id="errorMessage" style="display: none">An error occured. Try again later</p>
+		<div id="bottomErrorMessageContainer">
+			<p id="bottomErrorMessage" style="display: none">An error occured. Try again later</p>
+		</div>
+		<div id="centerErrorMessageContainer">
+			<p id="centerErrorMessage" style="display: none">An error occured. Try again later</p>
 		</div>
 
 		<!-- How to Play Window-->
 		<div id="howToPlayWindowContainer" class="windowContainer" style="display: none">
 			<div id="howToPlayWindow" class="window">
-				<img id="exitHowToPlay" class="exitButton" onclick='closeWindow("howToPlayWindowContainer")' src="resources/images/exitIcon.webp" />
+				<img id="exitHowToPlay" class="exitButton" onclick='closeWindow("howToPlayWindow")' src="resources/images/exitIcon.webp" />
 				<div class="horContainer">
 					<p id="howToPlayTitle">how to play</p>
 				</div>
@@ -62,40 +65,47 @@
 						<span class="bold">L</span>, <span class="bold">I</span>, and <span class="bold">N</span> is not in the word in any spot.
 					</p>
 				</div>
+
+				<!--Strawberry Decor-->
+				<img class="windowStrawberry1 scale-down-center" src="resources/images/strawberry3.webp" />
+				<img class="windowStrawberry2 scale-up-center" src="resources/images/strawberry.webp" />
 			</div>
 		</div>
 
 		<!-- Ending Window -->
 		<div id="endingWindowContainer" class="windowContainer" style="display: none">
 			<div id="endingWindow" class="window">
-				<img id="exitHowToPlay" class="exitButton" onclick='closeWindow("endingWindowContainer")' src="resources/images/exitIcon.webp" />
-				
-				<div style = 'position: relative'>
-					<p id="results">congratulations!</p>
-					<img id = 'yellowStarEnding' src = 'resources/images/yellowStar.webp'>
-					<img id = 'redStarEnding' src = 'resources/images/redStar.webp'>
-					<img id = 'blueStarEnding' src = 'resources/images/blueStar.webp'>
+				<img id="exitHowToPlay" class="exitButton" onclick='closeWindow("endingWindow")' src="resources/images/exitIcon.webp" />
+
+				<div style="position: relative">
+					<p id="results">congratulations</p>
+					<img id="yellowStarEnding" class="rotate-center" src="resources/images/yellowStar.webp" />
+					<img id="redStarEnding" class="rotate-center" src="resources/images/redStar.webp" />
+					<img id="blueStarEnding" class="rotate-center-reverse" src="resources/images/blueStar.webp" />
 				</div>
-				<p style = 'margin-bottom: 5px;'> The correct word was: </p>
-				<p id = 'correctWord'> null </p>
+				<p style="margin-bottom: 5px">The correct word was:</p>
+				<p id="correctWord">null</p>
 
-				<button onclick="playAgain() ">play again</button>
-				<button onclick='mainMenu()'>main menu</button>
-	
+				<button onclick="playAgain()" style="background-color: var(--medium-cream)">play again</button>
+				<button onclick="mainMenu()" style="background-color: var(--medium-cream)">main menu</button>
+
+				<!--Strawberry Decor-->
+				<img class="windowStrawberry1 scale-down-center" src="resources/images/strawberry3.webp" />
+				<img class="windowStrawberry2 scale-up-center" src="resources/images/strawberry.webp" />
 			</div>
-
-		 </div>
+			<div class = 'backgroundOverlay'></div>
+		</div>
 		<!-- Main Menu -->
 		<div id="mainMenuContainer">
 			<img id="logo" src="resources/images/logo.webp" />
 			<p id="slogan">Get 6 chances to guess a 5-letter word.</p>
 			<button onclick="playGame() ">play game</button>
-			<button onclick='openWindow("howToPlayWindowContainer")'>how to play</button>
+			<button onclick='openWindow("howToPlayWindow")'>how to play</button>
 		</div>
 
 		<!--Main Game-->
 		<div id="mainGameContainer">
-			<button id = 'mainMenuFromGame' onclick='mainMenu()'>main menu</button>
+			<button id="mainMenuFromGame" onclick="mainMenu()">main menu</button>
 
 			<!--Letter Boxes-->
 			<div class="board">
