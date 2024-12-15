@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>berryword</title>
+
+		<!-- Include stylesheets -->
+		<link rel="stylesheet" href="main.css" />
+		<link rel="stylesheet" href="animations.css" />
+
+		<!-- Include jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	</head>
+	<body onload="onload()">
+		<!-- Loading Screen-->
+		<div id="loadingScreen">
+			<img id="loadingStrawberry" class="rotate-center" src="resources/images/strawberry.webp" />
+		</div>
+
+		<!-- Error Message -->
+		<div id="errorMessageContainer">
+			<p id="errorMessage" style="display: none">An error occured. Try again later</p>
+		</div>
+
+		<!-- How to Play Window-->
+		<div id="howToPlayWindowContainer" class="windowContainer" style="display: none">
+			<div id="howToPlayWindow" class="window">
+				<img id="exitHowToPlay" class="exitButton" onclick='closeWindow("howToPlayWindowContainer")' src="resources/images/exitIcon.webp" />
+				<div class="horContainer">
+					<p id="howToPlayTitle">how to play</p>
+				</div>
+				<!--Bullet Points-->
+				<div>
+					<div class="bulletRow">
+						<img class="starBullet" src="resources/images/blueStar.webp" />
+						<p class="bulletText">Guess the word in 6 tries.</p>
+					</div>
+					<div class="bulletRow">
+						<img class="starBullet" src="resources/images/yellowStar.webp" />
+						<p class="bulletText">Each guess must be a valid 5-letter word.</p>
+					</div>
+					<div class="bulletRow">
+						<img class="starBullet" src="resources/images/redStar.webp" />
+						<p class="bulletText">
+							The color of t he tiles will change to show <br />
+							how close your guess was to the word.
+						</p>
+					</div>
+				</div>
+
+				<!--Example-->
+				<div class="verContainer">
+					<p id="howToPlayExample">EXAMPLE</p>
+
+					<!--Example Image Here-->
+					<img id="exampleImage" src="resources/images/exampleImage.webp" />
+
+					<p id="howToPlayExampleExplanation">
+						<span class="bold">P</span> is in the word and in the correct spot. <br />
+						<span class="bold">A</span> is in the word but in the wrong spot. <br />
+						<span class="bold">L</span>, <span class="bold">I</span>, and <span class="bold">N</span> is not in the word in any spot.
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Ending Window -->
+		<div id="endingWindowContainer" class="windowContainer" style="display: none">
+			<div id="endingWindow" class="window">
+				<img id="exitHowToPlay" class="exitButton" onclick='closeWindow("endingWindowContainer")' src="resources/images/exitIcon.webp" />
+				
+				<div style = 'position: relative'>
+					<p id="results">congratulations!</p>
+					<img id = 'yellowStarEnding' src = 'resources/images/yellowStar.webp'>
+					<img id = 'redStarEnding' src = 'resources/images/redStar.webp'>
+					<img id = 'blueStarEnding' src = 'resources/images/blueStar.webp'>
+				</div>
+				<p style = 'margin-bottom: 5px;'> The correct word was: </p>
+				<p id = 'correctWord'> null </p>
+
+				<button onclick="playAgain() ">play again</button>
+				<button onclick='mainMenu()'>main menu</button>
+	
+			</div>
+
+		 </div>
+		<!-- Main Menu -->
+		<div id="mainMenuContainer">
+			<img id="logo" src="resources/images/logo.webp" />
+			<p id="slogan">Get 6 chances to guess a 5-letter word.</p>
+			<button onclick="playGame() ">play game</button>
+			<button onclick='openWindow("howToPlayWindowContainer")'>how to play</button>
+		</div>
+
+		<!--Main Game-->
+		<div id="mainGameContainer">
+			<button id = 'mainMenuFromGame' onclick='mainMenu()'>main menu</button>
+
+			<!--Letter Boxes-->
+			<div class="board">
+				<!-- 6 rows -->
+				<div class="row">
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+				</div>
+				<div class="row">
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+				</div>
+				<div class="row">
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+				</div>
+				<div class="row">
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+				</div>
+				<div class="row">
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+				</div>
+				<div class="row">
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+					<div class="cell"></div>
+				</div>
+			</div>
+
+			<!-- Virtual Keyboard -->
+			<div class="horContainer">
+				<div class="keyboard">
+					<div class="keyboard-row">
+						<button class="keyboard-button" onclick="keyPress('Q')">Q</button>
+						<button class="keyboard-button" onclick="keyPress('W')">W</button>
+						<button class="keyboard-button" onclick="keyPress('E')">E</button>
+						<button class="keyboard-button" onclick="keyPress('R')">R</button>
+						<button class="keyboard-button" onclick="keyPress('T')">T</button>
+						<button class="keyboard-button" onclick="keyPress('Y')">Y</button>
+						<button class="keyboard-button" onclick="keyPress('U')">U</button>
+						<button class="keyboard-button" onclick="keyPress('I')">I</button>
+						<button class="keyboard-button" onclick="keyPress('O')">O</button>
+						<button class="keyboard-button" onclick="keyPress('P')">P</button>
+					</div>
+					<div class="keyboard-row">
+						<button class="keyboard-button" onclick="keyPress('A')">A</button>
+						<button class="keyboard-button" onclick="keyPress('S')">S</button>
+						<button class="keyboard-button" onclick="keyPress('D')">D</button>
+						<button class="keyboard-button" onclick="keyPress('F')">F</button>
+						<button class="keyboard-button" onclick="keyPress('G')">G</button>
+						<button class="keyboard-button" onclick="keyPress('H')">H</button>
+						<button class="keyboard-button" onclick="keyPress('J')">J</button>
+						<button class="keyboard-button" onclick="keyPress('K')">K</button>
+						<button class="keyboard-button" onclick="keyPress('L')">L</button>
+					</div>
+					<div class="keyboard-row">
+						<button class="keyboard-button special" onclick="keyPress('Enter')">Enter</button>
+						<button class="keyboard-button" onclick="keyPress('Z')">Z</button>
+						<button class="keyboard-button" onclick="keyPress('X')">X</button>
+						<button class="keyboard-button" onclick="keyPress('C')">C</button>
+						<button class="keyboard-button" onclick="keyPress('V')">V</button>
+						<button class="keyboard-button" onclick="keyPress('B')">B</button>
+						<button class="keyboard-button" onclick="keyPress('N')">N</button>
+						<button class="keyboard-button" onclick="keyPress('M')">M</button>
+						<button class="keyboard-button special" onclick="keyPress('Backspace')">Delete</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Strawberries -->
+
+		<img id="strawberry1" class="infiniteSlide1" src="resources/images/strawberry.webp" />
+		<img id="strawberry2" class="infiniteSlide2" src="resources/images/strawberry2.webp" />
+		<img id="strawberry3" class="infiniteSlide3" src="resources/images/strawberry.webp" />
+
+		<!-- Grids -->
+		<img id="grid1" src="resources/images/grid1.webp" />
+		<img id="grid2" src="resources/images/grid2.webp" />
+		<img id="grid3" src="resources/images/grid3.webp" />
+
+		<!-- Include Javascript -->
+		<script src="main.js"></script>
+	</body>
+</html>
