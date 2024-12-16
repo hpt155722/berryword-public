@@ -25,7 +25,16 @@ function toggleLoadingScreen(show) {
 
 function openWindow(windowID, status) {
 	if (status) {
-		getRealWord((realWord) => $('#correctWord').text(realWord)); // Only if status is not null
+		getRealWord((word, definition) => {
+			$('#correctWord').text(word); // Update the word
+			if (definition && definition != '') {
+				$('#definition')
+					.text('Definition: ' + definition)
+					.show();
+			} else {
+				$('#definition').hide();
+			}
+		});
 		$('#results').text(status === 'success' ? 'Congratulations' : status === 'failure' ? "That's too bad" : '');
 	}
 
@@ -91,13 +100,20 @@ function resetGame() {
 	// Clear text and reset styles for game cells and keyboard
 	$('.row').children().text('').css('background-color', '');
 	$('.keyboard-button').css({ 'background-color': '', color: '', border: '0' });
+
+	//Clear right word and definition
+	$('#correctWord').text('');
+	$('#definition').text('').hide();
 }
 
 function playAgain() {
 	toggleLoadingScreen(true);
-	closeWindow('endingWindowContainer');
-	generateWord();
-	resetGame();
+
+	setTimeout(() => {
+		$('#endingWindowContainer').hide();
+		generateWord();
+		resetGame();
+	}, 300);
 
 	setTimeout(() => {
 		toggleLoadingScreen(false);
@@ -109,10 +125,11 @@ function playAgain() {
 
 function mainMenu() {
 	toggleLoadingScreen(true);
+
 	setTimeout(() => {
-		closeWindow('endingWindowContainer');
-		resetGame();
+		$('#endingWindowContainer').hide();
 		$('#mainGameContainer').hide();
+		resetGame();
 		$('#strawberry1, #strawberry2, #strawberry3, #mainMenuContainer').show();
 	}, 300);
 
@@ -203,29 +220,32 @@ function checkComplete(word) {
 }
 
 function checkRealWord(word) {
-	console.log(word);
-	$.get('utilities/checkRealWord.php', { word })
-		.done((response) => {
-			try {
-				console.log(response);
+	isProcessing = true;
 
-				const result = JSON.parse(response);
+	// Determine the game mode to send in the request
+	const mode = gameMode === 'easy' ? 'easy' : 'normal';
 
-				if (result.is_real) {
-					checkLetters(word);
-				} else {
-					// Turn the row red
-					turnRowRed();
-					displayError('Not a real word.', 'center');
-				}
-			} catch {
-				displayError('There was an error processing the response.');
-			}
-		})
-		.fail(() => displayError('There was an error checking the word.'))
-		.always(() => {
-			isProcessing = false;
-		});
+	// Send the mode along with the word to the API
+	$.get('utilities/checkRealWord.php', { word, mode })
+			.done((response) => {
+					try {
+							const result = JSON.parse(response);
+
+							if (result.is_real) {
+									checkLetters(word);
+							} else {
+									// Turn the row red before processing is set to false
+									turnRowRed();
+									displayError('Not a real word.', 'center');
+							}
+					} catch {
+							displayError('There was an error processing the response.');
+					}
+			})
+			.fail(() => displayError('There was an error checking the word.'))
+			.always(() => {
+					isProcessing = false;
+			});
 }
 
 function turnRowRed() {
@@ -273,6 +293,7 @@ function checkLetters(word) {
 
 				if (feedback.every((status) => status === 'correct')) {
 					openWindow('endingWindow', 'success');
+					isProcessing = false;
 				} else if (currentRow >= 6) {
 					openWindow('endingWindow', 'failure');
 				}
@@ -287,22 +308,21 @@ function checkLetters(word) {
 }
 
 async function generateWord() {
-	if (gameMode === 'easy') {
-		try {
-			await fetch('utilities/generateWordEasy.php');
-		} catch {
+	const mode = gameMode === 'easy' ? 'easy' : 'normal'; // Determine the mode based on gameMode
+
+	try {
+			// Send the game mode as a query parameter to the same PHP file
+			const response = await fetch(`utilities/generateWord.php?mode=${mode}`);
+			
+			if (!response.ok) {
+					throw new Error('Network response was not ok');
+			}
+						
+	} catch (error) {
 			toggleLoadingScreen(true);
-			displayError('Failed to fetch a random word.');
+			displayError('Failed to fetch word.');
+			//console.error(error);
 			return null;
-		}
-	} else {
-		try {
-			await fetch('utilities/generateWord.php');
-		} catch {
-			toggleLoadingScreen(true);
-			displayError('Failed to fetch a random word.');
-			return null;
-		}
 	}
 }
 
@@ -319,5 +339,17 @@ function updateKeyboardButton(letter) {
 }
 
 function getRealWord(callback) {
-	$.get('utilities/getRealWord.php', callback);
+	$.get('utilities/getRealWord.php', function (response) {
+		// Parse the response as JSON
+		const data = JSON.parse(response);
+
+		// Check if there is an error in the response
+		if (data.error) {
+			console.error(data.error);
+			displayError('An error occured');
+		} else {
+			// Pass the word and definition to the callback
+			callback(data.word, data.definition);
+		}
+	});
 }

@@ -3,10 +3,10 @@
 $word = isset($_GET['word']) ? $_GET['word'] : '';
 
 // Your Merriam-Webster API key
-$apiKey = 'OMITTED';
+$apiKey = 'OMIT';
 
 // URL for the Merriam-Webster API
-$url = "https://dictionaryapi.com/api/v3/references/collegiate/json/{$word}?key={$apiKey}";
+$url = "https://www.dictionaryapi.com/api/v3/references/sd4/json/{$word}?key={$apiKey}";
 
 // Initialize cURL session
 $ch = curl_init();
