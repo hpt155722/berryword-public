@@ -54,15 +54,7 @@ function closeWindow(windowID) {
 	}, 500);
 }
 
-let gameMode = 'normal';
-
-function playGame(mode = 'normal') {
-	if (mode === 'easy') {
-		gameMode = 'easy';
-	} else {
-		gameMode = 'normal'; // Set to 'normal' if mode is not 'easy'
-	}
-
+function playGame() {
 	toggleLoadingScreen(true);
 
 	setTimeout(() => {
@@ -70,17 +62,12 @@ function playGame(mode = 'normal') {
 		$('#mainMenuContainer').hide();
 		$('#strawberry1, #strawberry2, #strawberry3').hide();
 		$('#mainGameContainer').show();
-		if (gameMode === 'easy') {
-			$('#gameModeText').text('Easy Mode');
-		} else {
-			$('#gameModeText').text('Normal Mode');
-		}
-	}, 300);
+	}, 500);
 
 	setTimeout(() => {
 		toggleLoadingScreen(false);
 		gameStarted = true;
-	}, 400);
+	}, 800);
 }
 
 function resetGame() {
@@ -111,12 +98,13 @@ function mainMenu() {
 	toggleLoadingScreen(true);
 	setTimeout(() => {
 		closeWindow('endingWindowContainer');
-		resetGame();
 		$('#mainGameContainer').hide();
-		$('#strawberry1, #strawberry2, #strawberry3, #mainMenuContainer').show();
-	}, 300);
+		resetGame();
+		$('#mainMenuContainer').show();
+		$('#strawberry1, #strawberry2, #strawberry3').show();
+	}, 500);
 
-	setTimeout(() => toggleLoadingScreen(false), 500);
+	setTimeout(() => toggleLoadingScreen(false), 1200);
 }
 
 function displayError(message, location = 'bottom') {
@@ -287,22 +275,12 @@ function checkLetters(word) {
 }
 
 async function generateWord() {
-	if (gameMode === 'easy') {
-		try {
-			await fetch('utilities/generateWordEasy.php');
-		} catch {
-			toggleLoadingScreen(true);
-			displayError('Failed to fetch a random word.');
-			return null;
-		}
-	} else {
-		try {
-			await fetch('utilities/generateWord.php');
-		} catch {
-			toggleLoadingScreen(true);
-			displayError('Failed to fetch a random word.');
-			return null;
-		}
+	try {
+		await fetch('utilities/generateWord.php');
+	} catch {
+		toggleLoadingScreen(true);
+		displayError('Failed to fetch a random word.');
+		return null;
 	}
 }
 

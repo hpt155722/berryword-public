@@ -2,34 +2,10 @@
 // Start the session
 session_start();
 
-// Define the API URL for fetching a 5-letter word
-$apiUrl = 'https://random-word-api.herokuapp.com/word?number=1&length=5';
-
-// Fetch the word data from the API
-$response = @file_get_contents($apiUrl);
-
-// Check if the API returned valid data
-if ($response === FALSE) {
-    // API call failed, fallback to fetching the word from a text file
-    $word = getWordFromFile();
-    if ($word === false) {
-        die('Error: Unable to retrieve word from file or API.');
-    }
-} else {
-    // Decode the API response
-    $data = json_decode($response, true);
-
-    // Check if the response contains valid data
-    if (empty($data)) {
-        // If no valid data, fallback to fetching from the file
-        $word = getWordFromFile();
-        if ($word === false) {
-            die('Error: Unable to retrieve word from file or API.');
-        }
-    } else {
-        // Get the 5-letter word from the API response
-        $word = strtoupper($data[0]);
-    }
+// Fetch the word from the text file
+$word = getWordFromFile();
+if ($word === false) {
+    die('Error: Unable to retrieve word from file.');
 }
 
 // Store the word in the session

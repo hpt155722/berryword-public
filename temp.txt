@@ -1,7 +1,42 @@
 
+.fade-in {
+	-webkit-animation: fade-in 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+	animation: fade-in 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+@-webkit-keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 
-
-if (strlen($guessedWord) !== 5) {
-  echo json_encode(['error' => 'Invalid word length.']);
-  exit();
+.fade-out {
+	-webkit-animation: fade-out 0.3s ease-out both;
+	animation: fade-out 0.3s ease-out both;
+}
+@-webkit-keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
 }

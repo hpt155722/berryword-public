@@ -11,14 +11,6 @@
 
 		<!-- Include jQuery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-		<!--Icons-->
-		<link rel="icon" type="image/png" href="favicon-96x96-2.png" sizes="96x96" />
-		<link rel="icon" type="image/svg+xml" href="favicon-2.svg" />
-		<link rel="shortcut icon" href="favicon-2.ico" />
-		<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-2.png" />
-		<meta name="apple-mobile-web-app-title" content="berryword" />
-		<link rel="manifest" href="site-2.webmanifest" />
 	</head>
 	<body onload="onload()">
 		<!-- Loading Screen-->
@@ -101,14 +93,13 @@
 				<img class="windowStrawberry1 scale-down-center" src="resources/images/strawberry3.webp" />
 				<img class="windowStrawberry2 scale-up-center" src="resources/images/strawberry.webp" />
 			</div>
-			<div class="backgroundOverlay"></div>
+			<div class = 'backgroundOverlay'></div>
 		</div>
 		<!-- Main Menu -->
 		<div id="mainMenuContainer">
 			<img id="logo" src="resources/images/logo.webp" />
 			<p id="slogan">Get 6 chances to guess a 5-letter word.</p>
-			<button onclick="playGame('normal') ">play normal mode</button>
-			<button onclick="playGame('easy') ">play easy mode</button>
+			<button onclick="playGame() ">play game</button>
 			<button onclick='openWindow("howToPlayWindow")'>how to play</button>
 		</div>
 
@@ -116,7 +107,6 @@
 		<div id="mainGameContainer">
 			<button id="mainMenuFromGame" onclick="mainMenu()">main menu</button>
 
-			<p id = 'gameModeText'> Normal Mode </p>
 			<!--Letter Boxes-->
 			<div class="board">
 				<!-- 6 rows -->
