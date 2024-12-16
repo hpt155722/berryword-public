@@ -2,10 +2,9 @@
 // Get the word from the request (GET or POST)
 $word = isset($_GET['word']) ? $_GET['word'] : '';
 
-// Your Merriam-Webster API key
 $apiKey = 'OMIT';
 
-// URL for the Merriam-Webster API
+// URL for API
 $url = "https://www.dictionaryapi.com/api/v3/references/sd4/json/{$word}?key={$apiKey}";
 
 // Initialize cURL session
