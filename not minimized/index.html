@@ -8,9 +8,18 @@
 		<!-- Include stylesheets -->
 		<link rel="stylesheet" href="main.css" />
 		<link rel="stylesheet" href="animations.css" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 		<!-- Include jQuery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+		<!--Icons-->
+		<link rel="icon" type="image/png" href="favicon-96x96-2.png" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="favicon-2.svg" />
+		<link rel="shortcut icon" href="favicon-2.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-2.png" />
+		<meta name="apple-mobile-web-app-title" content="berryword" />
+		<link rel="manifest" href="site-2.webmanifest" />
 	</head>
 	<body onload="onload()">
 		<!-- Loading Screen-->
@@ -46,7 +55,7 @@
 					<div class="bulletRow">
 						<img class="starBullet" src="resources/images/redStar.webp" />
 						<p class="bulletText">
-							The color of t he tiles will change to show <br />
+							The color of the tiles will change to show <br />
 							how close your guess was to the word.
 						</p>
 					</div>
@@ -85,6 +94,7 @@
 				</div>
 				<p style="margin-bottom: 5px">The correct word was:</p>
 				<p id="correctWord">null</p>
+				<p id="definition">Definition: null</p>
 
 				<button onclick="playAgain()" style="background-color: var(--medium-cream)">play again</button>
 				<button onclick="mainMenu()" style="background-color: var(--medium-cream)">main menu</button>
@@ -93,13 +103,14 @@
 				<img class="windowStrawberry1 scale-down-center" src="resources/images/strawberry3.webp" />
 				<img class="windowStrawberry2 scale-up-center" src="resources/images/strawberry.webp" />
 			</div>
-			<div class = 'backgroundOverlay'></div>
+			<div class="backgroundOverlay"></div>
 		</div>
 		<!-- Main Menu -->
 		<div id="mainMenuContainer">
 			<img id="logo" src="resources/images/logo.webp" />
 			<p id="slogan">Get 6 chances to guess a 5-letter word.</p>
-			<button onclick="playGame() ">play game</button>
+			<button onclick="playGame('normal') ">play normal mode</button>
+			<button onclick="playGame('easy') ">play easy mode</button>
 			<button onclick='openWindow("howToPlayWindow")'>how to play</button>
 		</div>
 
@@ -107,6 +118,7 @@
 		<div id="mainGameContainer">
 			<button id="mainMenuFromGame" onclick="mainMenu()">main menu</button>
 
+			<p id="gameModeText">Normal Mode</p>
 			<!--Letter Boxes-->
 			<div class="board">
 				<!-- 6 rows -->
@@ -179,9 +191,11 @@
 						<button class="keyboard-button" onclick="keyPress('J')">J</button>
 						<button class="keyboard-button" onclick="keyPress('K')">K</button>
 						<button class="keyboard-button" onclick="keyPress('L')">L</button>
+						<button class="keyboard-button special backspace" onclick="keyPress('Backspace')">
+							<i class="material-icons">backspace</i>
+						</button>
 					</div>
 					<div class="keyboard-row">
-						<button class="keyboard-button special" onclick="keyPress('Enter')">Enter</button>
 						<button class="keyboard-button" onclick="keyPress('Z')">Z</button>
 						<button class="keyboard-button" onclick="keyPress('X')">X</button>
 						<button class="keyboard-button" onclick="keyPress('C')">C</button>
@@ -189,7 +203,7 @@
 						<button class="keyboard-button" onclick="keyPress('B')">B</button>
 						<button class="keyboard-button" onclick="keyPress('N')">N</button>
 						<button class="keyboard-button" onclick="keyPress('M')">M</button>
-						<button class="keyboard-button special" onclick="keyPress('Backspace')">Delete</button>
+						<button class="keyboard-button special enter" onclick="keyPress('Enter')">Enter</button>
 					</div>
 				</div>
 			</div>

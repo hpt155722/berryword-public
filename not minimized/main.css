@@ -48,6 +48,8 @@ body {
 	overflow: hidden;
 	font-family: Pedagogique;
 	color: var(--dark-primary);
+	margin: 0;
+	padding: 0;
 }
 
 html,
@@ -288,7 +290,7 @@ img {
 	height: 100vh;
 	position: fixed;
 	top: 0;
-	left:0;
+	left: 0;
 	z-index: 5;
 }
 
@@ -349,7 +351,6 @@ img {
 	#windowStrawberry2 {
 		width: 45px;
 	}
-	
 }
 
 /* HOW TO PLAY */
@@ -412,8 +413,15 @@ img {
 	border-radius: 10px;
 	padding: 5px 15px;
 	font-size: 20px;
-	margin-bottom: 40px;
+	margin-bottom: 10px;
 	margin-top: 10px;
+}
+
+#definition {
+	margin-bottom: 20px;
+	margin-top: 10px;
+	width: 70%;
+	text-align: center;
 }
 
 #yellowStarEnding {
@@ -451,8 +459,24 @@ img {
 
 /* MAIN GAME BOARD */
 
-.mainGameContainer {
+#mainGameContainer {
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	min-height: 400px;
+	padding: 0;
+	margin: 0;
+}
+
+#gameModeText {
+	margin: 0;
+	padding: 5px 10px;
+	background-color: var(--light-cream);
+	border-radius: 15px;
 }
 
 .board {
@@ -460,7 +484,7 @@ img {
 	flex-direction: column;
 	gap: 8px;
 	z-index: 3;
-	margin-top: 30px;
+	margin-top: 15px;
 	margin-bottom: 20px;
 }
 
@@ -492,8 +516,11 @@ img {
 }
 
 @media screen and (orientation: portrait) {
+	#mainGameContainer {
+		height: 100%;
+	}
 	.board {
-		margin-top: 70px;
+		margin-top: 10px;
 		margin-bottom: 10px;
 	}
 }
@@ -538,12 +565,21 @@ img {
 }
 
 .keyboard-button.special {
-	width: 80px;
-	max-width: 80px;
+	width: 60px;
 	font-weight: normal;
 	color: var(--light-cream);
 	background-color: var(--strong-pink);
 }
+
+.keyboard-button i.material-icons {
+	font-size: 18px;
+}
+
+.keyboard-button.special.enter {
+	background-color: #95bb98;
+	width: 120px;
+}
+
 
 @media screen and (orientation: portrait) {
 	.keyboard {
@@ -555,6 +591,7 @@ img {
 		font-size: 25px;
 		padding: 12px;
 		margin: 7px 3px;
+		margin-bottom: 0;
 	}
 	.keyboard-button.special {
 		width: 60px;
@@ -567,13 +604,15 @@ img {
 	position: fixed;
 	z-index: 4;
 	top: 15px;
+	left: 15px;
 	font-size: 1.5em;
 }
 
 @media screen and (orientation: portrait) {
 	#mainMenuFromGame {
-		font-size: 1.25em;
+		font-size: 1.2em;
 		margin: 0;
-		margin-left: 15px;
+		margin-left: 3px;
+		padding: 5px 8px;
 	}
 }

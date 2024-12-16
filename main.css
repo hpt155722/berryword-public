@@ -565,12 +565,21 @@ img {
 }
 
 .keyboard-button.special {
-	width: 80px;
-	max-width: 80px;
+	width: 60px;
 	font-weight: normal;
 	color: var(--light-cream);
 	background-color: var(--strong-pink);
 }
+
+.keyboard-button i.material-icons {
+	font-size: 18px;
+}
+
+.keyboard-button.special.enter {
+	background-color: #95bb98;
+	width: 120px;
+}
+
 
 @media screen and (orientation: portrait) {
 	.keyboard {
